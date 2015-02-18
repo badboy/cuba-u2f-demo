@@ -1,0 +1,5 @@
+<form action='' method='post'>
+</form>
+
+
+<script src="chrome-extension://pfboblefjcgdjicmnffhdgionmgcdmne/u2f-api.js"></script>

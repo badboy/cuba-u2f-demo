@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>u2f demo</title>
+  </head>
+  <body>
+    {{ content }}
+  </body>
+</html>
