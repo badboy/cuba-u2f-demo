@@ -34,6 +34,7 @@
     </tbody>
   </table>
 
-  <br>
-  <a href="/private/keys/add" class="pure-button pure-button-primary">Add new key</a>
+  <p>
+    <a href="/private/keys/add" class="pure-button pure-button-primary">Add new key</a>
+  </p>
 </div>

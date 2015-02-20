@@ -7,6 +7,6 @@
   </ul>
 </div>
 
-<div>
-  <a href="/logout">Logout</a>
-</div>
+<p>
+  <a href="/logout" class="pure-button pure-button-primary">Logout</a>
+</p>
