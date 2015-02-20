@@ -1,0 +1,12 @@
+<h2>Private</h2>
+
+<div class="pure-menu pure-menu-open pure-menu-horizontal">
+  <ul>
+    <li class="pure-menu-selected"><a href="/private">Home</a></li>
+    <li><a href="/private/keys">U2F Keys</a></li>
+  </ul>
+</div>
+
+<div>
+  <a href='/logout'>Logout</a>
+</div>

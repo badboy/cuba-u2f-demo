@@ -3,8 +3,33 @@
   <head>
     <meta charset="utf-8" />
     <title>u2f demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/pure.css">
+    <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
-    {{ content }}
+    <div class="content-wrapper">
+      <div class="content">
+        % if msg = this.session.delete(:error)
+          <div class='flash error'>
+            {{ msg }}
+          </div>
+        % end
+        % if msg = this.session.delete(:notice)
+          <div class='flash notice'>
+            {{ msg }}
+          </div>
+        % end
+        % if msg = this.session.delete(:success)
+          <div class='flash success'>
+            {{ msg }}
+          </div>
+        % end
+
+        <h1>Cuba.rb – U2F Demo</h1>
+
+        {{ content }}
+      </div>
+    </div>
   </body>
 </html>

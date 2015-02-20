@@ -1,28 +1,12 @@
-<p>
-This is a rather basic example for a user system with U2F authorization.
-</p>
-
-% if this.current_user
-<p>
-Hello, {{ this.current_user.username }}.
-</p>
-<p>
-Go to the a 
-<a href='/private'>private section</a> or 
-<a href='/logout'>logout</a>.
-</p>
-% else
-{{ this.partial "login" }}
-% end
-
-<!--
-<form action="/registrations" method="post">
+<form action="/private/keys/add" method="post">
   <input type="hidden" name="response">
+
+  <button type="submit" class="pure-button pure-button-primary">Register</button>
 </form>
 
-<button class="pure-button pure-button-primary" name="register">
-  Register
-</button>
+<p>
+<a href='/private/keys'>Back to overview</a>
+</p>
 
 <script src="chrome-extension://pfboblefjcgdjicmnffhdgionmgcdmne/u2f-api.js"></script>
 
@@ -31,7 +15,9 @@ Go to the a
 var registerRequests = {{ registration_requests.to_json }};
 var signRequests = {{ sign_requests.to_json }};
 
-document.querySelector("button").onclick = function () {
+document.querySelector("button").onclick = function (ev) {
+  ev.preventDefault();
+
   u2f.register(registerRequests, signRequests, function(registerResponse) {
     var form, reg;
 
@@ -48,4 +34,3 @@ document.querySelector("button").onclick = function () {
   });
 }
 </script>
--->

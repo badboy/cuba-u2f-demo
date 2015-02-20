@@ -1,0 +1,20 @@
+<div class="login-form">
+  <form action="/login" method="post" class="pure-form pure-form-stacked">
+    <fieldset>
+      <legend>Login</legend>
+
+      <input type="text" placeholder="Username" name="username">
+      <input type="password" placeholder="Password" name="password">
+
+      <label for="remember">
+        <input id="remember" type="checkbox" name="remember"> Remember me
+      </label>
+
+      <button type="submit" class="pure-button pure-button-primary" name="login">Sign in</button>
+
+      <p>
+        <a href='/register'>Don't have an account? Register</a>
+      </p>
+    </fieldset>
+  </form>
+</div>

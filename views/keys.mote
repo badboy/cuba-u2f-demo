@@ -1,0 +1,39 @@
+<h2>Keys</h2>
+<div class="pure-menu pure-menu-open pure-menu-horizontal">
+  <ul>
+    <li><a href="/private">Home</a></li>
+    <li class="pure-menu-selected"><a href="/private/keys">U2F Keys</a></li>
+  </ul>
+</div>
+
+<div>
+  <table class="pure-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Key Handle</th>
+        <th>Last Used</th>
+      </tr>
+    </thead>
+
+    
+    <tbody>
+      % if keys.empty?
+      <tr>
+        <td colspan=3>No keys</td>
+      </tr>
+      % end
+
+      % keys.each_with_index do |key, i|
+      <tr>
+        <td>{{ i+1 }}</td>
+        <td>{{ this.truncate(key.key_handle, 16) }}</td>
+        <td>{{ key.updated_at.inspect }}</td>
+      </tr>
+      % end
+    </tbody>
+  </table>
+
+  <br>
+  <a href="/private/keys/add" class="pure-button pure-button-primary">Add new key</a>
+</div>

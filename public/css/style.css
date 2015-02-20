@@ -1,0 +1,30 @@
+.content-wrapper {
+  margin-top: 20px;
+}
+.content {
+  z-index: 2;
+  background: white;
+  margin: 0 auto;
+  max-width: 986px;
+}
+
+.pure-form input[type=text], .pure-form input[type=password] {
+  /*width: 300px;*/
+}
+
+.flash {
+  padding: 10px;
+  color: white;
+  border-radius: 5px;
+}
+.error { background: rgb(202, 60, 60); }
+.notice { background: rgb(223, 117, 20); }
+.success { background: rgb(28, 184, 65); }
+
+a, a:active, a:visited {
+  color: #0078e7;
+}
+
+a.pure-button {
+  color: white;
+}

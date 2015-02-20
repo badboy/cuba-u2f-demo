@@ -1,0 +1,22 @@
+<div class="register-form">
+  <form action="register" method="post" class="pure-form pure-form-aligned">
+    <fieldset>
+      <legend>Register</legend>
+
+      <div class="pure-control-group">
+        <label for="username">Username</label>
+        <input type="text" placeholder="Username" id="username" name="username">
+      </div>
+
+      <div class="pure-control-group">
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" id="password" name="password">
+      </div>
+
+      <div class="pure-controls">
+        <button type="submit" class="pure-button pure-button-primary">Register now</button>
+      </div>
+
+    </fieldset>
+  </form>
+</div>
