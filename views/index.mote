@@ -1,51 +1,8 @@
-<p>
-This is a rather basic example for a user system with U2F authorization.
-</p>
+<p>This is a rather basic example for a user system with U2F authorization.</p>
 
 % if this.current_user
-<p>
-Hello, {{ this.current_user.username }}.
-</p>
-<p>
-Go to the a 
-<a href='/private'>private section</a> or 
-<a href='/logout'>logout</a>.
-</p>
+  <p>Hello, {{ this.current_user.username }}.</p>
+  <p>Go to the a <a href='/private'>private section</a> or <a href='/logout'>logout</a>.</p>
 % else
-{{ this.partial "login" }}
+  {{ this.partial "login" }}
 % end
-
-<!--
-<form action="/registrations" method="post">
-  <input type="hidden" name="response">
-</form>
-
-<button class="pure-button pure-button-primary" name="register">
-  Register
-</button>
-
-<script src="chrome-extension://pfboblefjcgdjicmnffhdgionmgcdmne/u2f-api.js"></script>
-
-<script type='text/javascript'>
-// render requests from server into Javascript format
-var registerRequests = {{ registration_requests.to_json }};
-var signRequests = {{ sign_requests.to_json }};
-
-document.querySelector("button").onclick = function () {
-  u2f.register(registerRequests, signRequests, function(registerResponse) {
-    var form, reg;
-
-    if (registerResponse.errorCode) {
-      return alert("Registration error: " + registerResponse.errorCode);
-    }
-
-    form = document.forms[0];
-    response = document.querySelector('[name=response]');
-
-    response.value = JSON.stringify(registerResponse);
-
-    form.submit();
-  });
-}
-</script>
--->

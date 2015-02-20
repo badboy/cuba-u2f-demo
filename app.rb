@@ -12,51 +12,55 @@ require "rack/static"
 
 require "./models"
 
-Cuba.plugin Cuba::Mote
-Cuba.plugin Cuba::TextHelpers
-
-Cuba.use Rack::Session::Cookie, :secret => "g+8oAKCmyJq46kjPmZ18nxCdcqeaujSIWu5p/Jl+h+0="
-
-Cuba.plugin Shield::Helpers
-Cuba.use Shield::Middleware, "/login"
-
-Cuba.use Rack::Static, :urls => ["/css"], :root => "public"
-
-
-Cuba.define do
+module Helpers
   def u2f
     @u2f ||= U2F::U2F.new(req.base_url)
   end
 
+  # Halt with the given error
   def error code
     halt [code, {}, []]
   end
 
+  # Get the current user (if any)
   def current_user
     authenticated(User)
   end
 
+  # Ensure a user is authenticated
+  # or force a redirect to login
   def authenticated!
     error(401) unless current_user
   end
 
+  # Set HTTP Redirection and halt immediately
   def redirect path
     res.redirect path
     halt res.finish
   end
+end
 
+Cuba.plugin Cuba::Mote
+Cuba.plugin Cuba::TextHelpers
+
+# Use Cookies, the secret should be random
+# Generate a new one with:
+#     openssl rand -base64 32
+Cuba.use Rack::Session::Cookie, :secret => "g+8oAKCmyJq46kjPmZ18nxCdcqeaujSIWu5p/Jl+h+0="
+
+# Authentication is handled by Shield
+Cuba.plugin Shield::Helpers
+Cuba.use Shield::Middleware, "/login"
+
+# We serve CSS files
+Cuba.use Rack::Static, :urls => ["/css"], :root => "public"
+
+# Include our own helpers
+Cuba.plugin Helpers
+
+Cuba.define do
   on root do
-    @registration_requests = u2f.registration_requests
-    session[:challenges] = @registration_requests.map(&:challenge)
-
-    key_handles = Registration.all.map(&:key_handle)
-    @sign_requests = u2f.authentication_requests(key_handles)
-
-    flash = session[:flash]
-
-    render "index",
-      registration_requests: @registration_requests,
-      sign_requests: @sign_requests
+    render "index"
   end
 
   on "register" do
@@ -69,21 +73,22 @@ Cuba.define do
         begin
           user = User.create(username: username, password: password)
           session[:success] = "Account created. You can log in now."
-          res.redirect('/login')
+          redirect('/login')
         rescue Ohm::UniqueIndexViolation
           session[:error] = "Please choose a different username."
-          res.redirect('/register')
+          redirect('/register')
         end
       end
 
       on true do
         session[:error] = "Missing credentials."
-        res.redirect('/register')
+        redirect('/register')
       end
     end
   end
 
   on "private" do
+    # From here on only for authenticated users.
     authenticated!
 
     on "keys" do
@@ -95,7 +100,7 @@ Cuba.define do
                   u2f.register!(session[:challenges], u2f_response)
                 rescue U2F::Error => e
                   session[:error] =  "Unable to register: #{e.class.name}"
-                  res.redirect "/private/keys/add"
+                  redirect "/private/keys/add"
                 ensure
                   session.delete(:challenges)
                 end
@@ -108,7 +113,7 @@ Cuba.define do
 
 
           session[:success] = "Key added."
-          res.redirect "/private/keys"
+          redirect "/private/keys"
         end
 
         on get do
@@ -131,11 +136,6 @@ Cuba.define do
     end
 
     on get do
-      unless authenticated(User)
-        session[:notice] = "Please login first."
-        error(401)
-      end
-
       render "private"
     end
   end
@@ -146,23 +146,23 @@ Cuba.define do
       session[:success] = "You are now logged out."
     end
 
-    res.redirect('/')
+    redirect('/')
   end
 
   on "login" do
     on "key" do
       on get do
         id = session[:user_prelogin].to_i
-        res.redirect "/login" unless id > 0
+        redirect "/login" unless id > 0
 
         user = User[id]
-        res.redirect "/login" unless user
+        redirect "/login" unless user
 
         # Fetch existing Registrations from your db
         key_handles = user.registrations.map(&:key_handle)
         if key_handles.empty?
           session[:notice] = "Please add a key first."
-          res.redirect "/private/keys"
+          redirect "/private/keys"
         end
 
         # Generate SignRequests
@@ -176,10 +176,10 @@ Cuba.define do
 
       on post, param("response") do |response|
         id = session[:user_prelogin].to_i
-        res.redirect "/login" unless id > 0
+        redirect "/login" unless id > 0
 
         user = User[id]
-        res.redirect "/login" unless user
+        redirect "/login" unless user
 
         u2f_response = U2F::SignResponse.load_from_json(response)
 
@@ -210,8 +210,7 @@ Cuba.define do
     end
 
     on get do
-      res.redirect('/private') if authenticated(User)
-
+      redirect('/private') if authenticated(User)
       render "login"
     end
 
@@ -227,87 +226,20 @@ Cuba.define do
             redirect "/login/key"
           end
 
-
           remember_me = false
           session[:success] = "Successfully logged in."
           remember(authenticated(User)) if remember_me
-          res.redirect(req.params['return'] || '/private')
+          redirect(req.params['return'] || '/private')
         else
           session[:error] = "Wrong credentials."
-          res.redirect "/login"
+          redirect "/login"
         end
       end
 
       on true do
-        #res.write "Parameters missing. Available: #{req.params}"
         session[:error] = "Missing credentials."
-        res.redirect "/login"
+        redirect "/login"
       end
-    end
-  end
-
-  on get do
-    on "klogin" do
-      key_handles = Registration.all.map(&:key_handle)
-      if key_handles.empty?
-        render "register_first"
-        break
-      end
-
-      @sign_requests = u2f.authentication_requests(key_handles)
-      session[:challenges] = @sign_requests.map(&:challenge)
-
-      render "login", sign_requests: @sign_requests
-    end
-
-  end
-
-  on post do
-    on "registrations", param("response") do |response|
-      u2f_response = U2F::RegisterResponse.load_from_json(response)
-
-      reg = begin
-              u2f.register!(session[:challenges], u2f_response)
-            rescue U2F::Error => e
-              res.write "Unable to register: #{e.class.name}"
-              break
-            ensure
-              session.delete(:challenges)
-            end
-
-      puts "@@@ registrations. #{reg.inspect}"
-
-      Registration.create(:certificate => reg.certificate,
-                          :key_handle  => reg.key_handle,
-                          :public_key  => reg.public_key,
-                          :counter     => reg.counter)
-
-
-      render "registration"
-    end
-
-    on "authentications", param("response") do |response|
-      u2f_response = U2F::SignResponse.load_from_json(response)
-
-      puts "Registration by key handle: #{u2f_response.key_handle}"
-      registration = Registration.find(key_handle: u2f_response.key_handle).first
-      puts "Registration: #{registration.public_key}"
-      puts "@@@ #{registration.counter.inspect}"
-
-      begin
-        u2f.authenticate!(session[:challenges], u2f_response,
-                          Base64.decode64(registration.public_key), registration.counter.to_i)
-
-      rescue U2F::Error => e
-        render "authfail", error: e
-        break
-      ensure
-        session.delete(:challenges)
-      end
-
-      registration.counter = u2f_response.counter
-      registration.save
-      render "authenticated"
     end
   end
 end
