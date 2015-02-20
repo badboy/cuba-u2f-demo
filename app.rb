@@ -69,20 +69,20 @@ Cuba.define do
     end
 
     on post do
-      on param('username'), param('password') do |username, password|
+      on param("username"), param("password") do |username, password|
         begin
           user = User.create(username: username, password: password)
           session[:success] = "Account created. You can log in now."
-          redirect('/login')
+          redirect("/login")
         rescue Ohm::UniqueIndexViolation
           session[:error] = "Please choose a different username."
-          redirect('/register')
+          redirect("/register")
         end
       end
 
       on true do
         session[:error] = "Missing credentials."
-        redirect('/register')
+        redirect("/register")
       end
     end
   end
@@ -146,7 +146,7 @@ Cuba.define do
       session[:success] = "You are now logged out."
     end
 
-    redirect('/')
+    redirect("/")
   end
 
   on "login" do
@@ -210,12 +210,12 @@ Cuba.define do
     end
 
     on get do
-      redirect('/private') if authenticated(User)
+      redirect("/private") if authenticated(User)
       render "login"
     end
 
     on post do
-      on param('username'), param('password') do |username, password|
+      on param("username"), param("password") do |username, password|
 
         if login(User, username, password)
           puts "@@@ " + current_user.registrations.size.to_s
@@ -229,7 +229,7 @@ Cuba.define do
           remember_me = false
           session[:success] = "Successfully logged in."
           remember(authenticated(User)) if remember_me
-          redirect(req.params['return'] || '/private')
+          redirect(req.params["return"] || "/private")
         else
           session[:error] = "Wrong credentials."
           redirect "/login"

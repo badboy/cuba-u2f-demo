@@ -12,7 +12,7 @@
     <button type="submit" class="pure-button pure-button-primary" name="login">Sign in</button>
 
     <p>
-    <a href='/register'>Don't have an account? Register here.</a>
+    <a href="/register">Don"t have an account? Register here.</a>
     </p>
   </fieldset>
 </form>

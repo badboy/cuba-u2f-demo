@@ -5,12 +5,12 @@
 </form>
 
 <p>
-<a href='/'>Back to home</a>
+<a href="/">Back to home</a>
 </p>
 
 <script src="chrome-extension://pfboblefjcgdjicmnffhdgionmgcdmne/u2f-api.js"></script>
 
-<script type='text/javascript'>
+<script type="text/javascript">
 // render requests from server into Javascript format
 var signRequests = {{ sign_requests.to_json }};
 
@@ -25,7 +25,7 @@ document.querySelector("button").onclick = function (ev) {
     }
 
     form = document.forms[0];
-    response = document.querySelector('[name=response]');
+    response = document.querySelector("[name=response]");
 
     response.value = JSON.stringify(signResponse);
 

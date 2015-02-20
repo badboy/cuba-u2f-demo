@@ -2,7 +2,7 @@
 
 % if this.current_user
   <p>Hello, {{ this.current_user.username }}.</p>
-  <p>Go to the a <a href='/private'>private section</a> or <a href='/logout'>logout</a>.</p>
+  <p>Go to the a <a href="/private">private section</a> or <a href="/logout">logout</a>.</p>
 % else
   {{ this.partial "login" }}
 % end
