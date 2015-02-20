@@ -1,12 +1,12 @@
+<p>You registered a key before. To successfully login insert that key now and click proceed.</p>
+
 <form action="/login/key" method="post">
   <input type="hidden" name="response">
 
   <button type="submit" class="pure-button pure-button-primary">Proceed</button>
 </form>
 
-<p>
-<a href="/">Back to home</a>
-</p>
+<p><a href="/">Back to home</a></p>
 
 <script src="chrome-extension://pfboblefjcgdjicmnffhdgionmgcdmne/u2f-api.js"></script>
 

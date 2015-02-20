@@ -1,3 +1,6 @@
+<p>Add a key to your account to make it safer. On the next login you need to present this key again.</p>
+<p>Insert your key now and click register. Your browser will probably ask you if it should allow key access.</p>
+
 <form action="/private/keys/add" method="post">
   <input type="hidden" name="response">
 
