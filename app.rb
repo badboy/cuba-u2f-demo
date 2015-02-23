@@ -40,6 +40,22 @@ module Helpers
   end
 end
 
+
+# All Routes:
+#
+# GET  /                  - Homepage with login form
+# GET  /register          - Register form for new account
+# POST /register          - Register new form and redirect to login
+# GET  /private           - Private section
+# GET  /private/keys      - List registered auth keys
+# GET  /private/keys/add  - Form to add new auth key
+# POST /private/keys/add  - Register new auth key
+# GET  /logout            - Logout current user
+# GET  /login             - Login form
+# POST /login             - Authenticate current user
+# GET  /login/key         - Form for key authentication
+# POST /login/key         - Verify key authentication and redirect
+
 Cuba.plugin Cuba::Mote
 Cuba.plugin Cuba::TextHelpers
 
