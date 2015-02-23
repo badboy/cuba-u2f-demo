@@ -87,7 +87,7 @@ Cuba.define do
     on post do
       on param("username"), param("password") do |username, password|
         begin
-          user = User.create(username: username, password: password)
+          User.create(username: username, password: password)
           session[:success] = "Account created. You can log in now."
           redirect("/login")
         rescue Ohm::UniqueIndexViolation
