@@ -1,3 +1,5 @@
+source 'https://rubygems.org'
+
 gem "rack"
 gem "cuba", "3.3.0"
 gem "mote", "1.1.3"

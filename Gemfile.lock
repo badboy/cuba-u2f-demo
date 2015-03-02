@@ -1,4 +1,5 @@
 GEM
+  remote: https://rubygems.org/
   specs:
     armor (0.0.3)
     cuba (3.3.0)
