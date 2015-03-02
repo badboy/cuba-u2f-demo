@@ -242,9 +242,7 @@ Cuba.define do
             redirect "/login/key"
           end
 
-          remember_me = false
           session[:success] = "Successfully logged in."
-          remember(authenticated(User)) if remember_me
           redirect(req.params["return"] || "/private")
         else
           session[:error] = "Wrong credentials."

@@ -5,10 +5,6 @@
     <input type="text" placeholder="Username" name="username">
     <input type="password" placeholder="Password" name="password">
 
-    <label for="remember">
-      <input id="remember" type="checkbox" name="remember"> Remember me
-    </label>
-
     <button type="submit" class="pure-button pure-button-primary" name="login">Sign in</button>
 
     <p>
