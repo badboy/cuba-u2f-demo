@@ -12,6 +12,8 @@ require "rack/static"
 
 require "./models"
 
+Ohm.redis = Redic.new(ENV['REDISTOGO_URL'] || ENV['REDIS_URL'] || "redis://localhost:6379")
+
 module Helpers
   def u2f
     @u2f ||= U2F::U2F.new(req.base_url)
