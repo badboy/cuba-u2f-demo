@@ -16,7 +16,7 @@
 <script type="text/javascript">
 // render requests from server into Javascript format
 var registerRequests = {{ registration_requests.to_json }};
-var signRequests = {{ sign_requests.to_json }};
+var signRequests = [];
 
 document.querySelector("button").onclick = function (ev) {
   ev.preventDefault();

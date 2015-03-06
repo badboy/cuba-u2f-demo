@@ -138,12 +138,8 @@ Cuba.define do
           registration_requests = u2f.registration_requests
           session[:challenges] = registration_requests.map(&:challenge)
 
-          key_handles = current_user.registrations.map(&:key_handle)
-          sign_requests = u2f.authentication_requests(key_handles)
-
           render "key_add",
-            registration_requests: registration_requests,
-            sign_requests: sign_requests
+            registration_requests: registration_requests
         end
       end
 
