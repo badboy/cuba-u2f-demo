@@ -236,7 +236,6 @@ Cuba.define do
       on param("username"), param("password") do |username, password|
 
         if login(User, username, password)
-          puts "@@@ " + current_user.registrations.size.to_s
           if current_user.registrations.size > 0
             session[:notice] = "Please insert one of your registered keys to proceed."
             session[:user_prelogin] = current_user.id
