@@ -35,7 +35,7 @@ Yes, even this little thing has a license. It's available under the conditions o
 
 [cuba]: https://github.com/soveran/cuba
 [u2f.rb]: https://github.com/castle/ruby-u2f
-[blogpost]: https://fnordig.de/...
+[blogpost]: http://fnordig.de/2015/03/06/u2f-demo-application/
 [u2f-overview]: http://fidoalliance.org/specs/fido-u2f-v1.0-ps-20141009/fido-u2f-overview-ps-20141009.html
 [dep]: https://github.com/cyx/dep
 [chrome-addon]: https://chrome.google.com/webstore/detail/fido-u2f-universal-2nd-fa/pfboblefjcgdjicmnffhdgionmgcdmne
