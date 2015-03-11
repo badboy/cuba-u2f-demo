@@ -12,3 +12,5 @@
     </p>
   </fieldset>
 </form>
+
+{{ this.partial "info" }}

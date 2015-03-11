@@ -1,0 +1,7 @@
+<hr>
+
+<p>
+This was built as a demo for the new U2F protocol. 
+There is a lengthy <a href="http://fnordig.de/2015/03/06/u2f-demo-application/">blog post explaining the implementation</a>
+and the actual code <a href="https://github.com/badboy/cuba-u2f-demo">in a GitHub repo</a>.
+</p>

@@ -10,3 +10,5 @@
 <p>
   <a href="/logout" class="pure-button pure-button-primary">Logout</a>
 </p>
+
+{{ this.partial "info" }}
